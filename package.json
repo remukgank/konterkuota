@@ -1,0 +1,15 @@
+{
+  "name": "konter-bot",
+  "version": "1.0.0",
+  "description": "Bot Telegram untuk konterkuota.com (cek harga, saldo, riwayat, order)",
+  "main": "src/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/index.js",
+    "test:harga": "node scripts/test-harga.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "grammy": "^1.46.0"
+  }
+}

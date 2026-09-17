@@ -1,0 +1,12 @@
+node_modules/
+.env
+*.log
+.9router/
+.agents/
+.opencode/
+.cache/
+.local/
+.config/
+.upm/
+.replit
+data/
