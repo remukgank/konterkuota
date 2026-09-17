@@ -951,3 +951,6 @@ console.log(
 if (!process.env.TELEGRAM_BOT_TOKEN && !require("./config").BOT_TOKEN) {
   console.error("WARNING: TELEGRAM_BOT_TOKEN belum diisi.");
 }
+if (!require("./config").BASE_URL) {
+  console.error("WARNING: KONTER_BASE_URL belum diisi (isi di .env / secrets).");
+}
