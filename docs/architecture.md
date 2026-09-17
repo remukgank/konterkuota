@@ -1,6 +1,6 @@
 # Arsitektur Bot KonterKuota
 
-Bot Telegram ini berinteraksi langsung dengan situs [konterkuota.com](https://konterkuota.com)
+Bot Telegram ini berinteraksi langsung dengan situs konter (via HTTP)
 tanpa API khusus. Semua komunikasi meniru perilaku situs (fetch HTML + POST form).
 
 ## Alur umum
@@ -15,7 +15,7 @@ src/index.js  ── perintah/menu interaktif ──►  src/order.js  /  src/ak
                                                src/konterApi.js  (client HTTP dengan cookie)
                                                         │
                                                         ▼
-                                              konterkuota.com (HTTPS)
+                                              situs konter (HTTPS)
 ```
 
 ## Struktur folder

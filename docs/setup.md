@@ -10,9 +10,9 @@
 
 Cookie ini memberi akses atas nama akun Anda, jadi jaga kerahasiaannya.
 
-1. Login ke [https://konterkuota.com](https://konterkuota.com) lewat browser.
+1. Login ke situs konter lewat browser.
 2. Buka DevTools (F12) → tab **Network** → muat ulang halaman.
-3. Klik request ke `konterkuota.com` → buka **Headers** → salin seluruh nilai header **Cookie**.
+3. Klik request ke situs → buka **Headers** → salin seluruh nilai header **Cookie**.
    Contoh:
    ```
    save_browser=xxx; user_id=xxx; user_key=xxx; csrf_cookie=xxx; sid=xxx
@@ -34,7 +34,7 @@ Salin `.env.example` menjadi `.env`, lalu isi nilainya:
 TELEGRAM_BOT_TOKEN=123456:ABC...
 KONTER_COOKIE=save_browser=...; user_id=...; user_key=...; csrf_cookie=...; sid=...
 ALLOWED_CHAT_IDS=
-KONTER_BASE_URL=https://konterkuota.com
+KONTER_BASE_URL=
 ```
 > `.env` masuk `.gitignore` — pastikan tidak ter-commit / ter-upload publik.
 

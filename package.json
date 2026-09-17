@@ -1,7 +1,7 @@
 {
   "name": "konter-bot",
   "version": "1.0.0",
-  "description": "Bot Telegram untuk konterkuota.com (cek harga, saldo, riwayat, order)",
+  "description": "Bot Telegram KonterKuota (cek harga, saldo, riwayat, order)",
   "main": "src/index.js",
   "type": "commonjs",
   "scripts": {
