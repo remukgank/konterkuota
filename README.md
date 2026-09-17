@@ -1,6 +1,6 @@
 # KonterKuota Bot 🛒
 
-Bot Telegram untuk [konterkuota.com](https://konterkuota.com) — cek harga, saldo,
+Bot Telegram untuk [konterkuota](https://t.me/konterkuotacombot) — cek harga, saldo,
 riwayat transaksi, mutasi, dan melakukan **order pulsa/kuota/game/token PLN/PPOB**
 langsung dari chat Telegram.
 
@@ -9,6 +9,13 @@ session akun Anda — tanpa API khusus dari penyedia.
 
 > **Peringatan:** nilai `KONTER_COOKIE` adalah akses penuh ke akun konter Anda.
 > Simpan hanya di env/secrets, jangan pernah di-commit ke repository.
+
+---
+
+## 🤖 Coba bot yang sudah jadi
+
+Bot sudah online & siap dipakai: **[t.me/konterkuotacombot](https://t.me/konterkuotacombot)**
+— buka langsung, lalu tekan **/start**.
 
 ---
 
@@ -53,7 +60,7 @@ session akun Anda — tanpa API khusus dari penyedia.
 ## Kecepatan mulai (setup)
 
 1. **Token bot**: buat via [@BotFather](https://t.me/BotFather) → `/newbot`.
-2. **Cookie session**: login ke konterkuota.com di browser → DevTools (F12) →
+2. **Cookie session**: login ke situs konter di browser → DevTools (F12) →
    Network → salin header **Cookie** (berisi `save_browser`, `user_id`, `user_key`,
    `csrf_cookie`, `sid`).
 3. **Konfigurasi**: isi `TELEGRAM_BOT_TOKEN`, `KONTER_COOKIE`, `ALLOWED_CHAT_IDS`
@@ -75,7 +82,7 @@ Detail lengkap: [docs/setup.md](docs/setup.md).
 | `TELEGRAM_BOT_TOKEN` | Ya | Token bot dari @BotFather |
 | `KONTER_COOKIE` | Ya | Cookie session konterkuota (login browser) |
 | `ALLOWED_CHAT_IDS` | Tidak | Daftar chat id admin, pisahkan koma. Kosong = semua boleh (tidak disarankan) |
-| `KONTER_BASE_URL` | Tidak | URL situs, default `https://konterkuota.com` |
+| `KONTER_BASE_URL` | Tidak | URL situs (default: lihat `.env.example`) |
 
 ## Struktur proyek
 
@@ -104,7 +111,7 @@ src/index.js → src/{order,akun,harga}.js
                src/konterApi.js (HTTP + cookie + CSRF)
                         │
                         ▼
-              konterkuota.com (HTTPS)
+              situs konter (HTTPS)
 ```
 
 - Order mewajibkan **captcha** per-session; bot mengunduh gambar captcha memakai
