@@ -31,13 +31,21 @@ function createCompatibilityAdapter(coreBot) {
       return coreBot.api.sendMessage(chatId, text, options);
     },
 
+    editMessageText(chatId, messageId, text, options = {}) {
+      return coreBot.api.editMessageText(chatId, messageId, text, options);
+    },
+
     sendRichMessage(chatId, html, fallback, options = {}) {
       const payload = { chat_id: chatId, rich_message: { html } };
       if (options.reply_markup) payload.reply_markup = options.reply_markup;
+      if (options.reply_to_message_id) payload.reply_to_message_id = options.reply_to_message_id;
       return coreBot.api.raw.sendRichMessage(payload).catch(() =>
         coreBot.api.sendMessage(chatId, fallback, {
           parse_mode: options.parse_mode,
           reply_markup: options.reply_markup,
+          ...(options.reply_to_message_id
+            ? { reply_to_message_id: options.reply_to_message_id }
+            : {}),
         })
       );
     },
@@ -55,6 +63,10 @@ function createCompatibilityAdapter(coreBot) {
 
     answerCallbackQuery(callbackQueryId, options = {}) {
       return coreBot.api.answerCallbackQuery(callbackQueryId, options);
+    },
+
+    sendChatAction(chatId, action = "typing") {
+      return coreBot.api.sendChatAction(chatId, action);
     },
   };
 }
@@ -116,20 +128,6 @@ function inlineButtons(rows) {
   };
 }
 
-function simpleKeyboard(buttons, columns, opts = {}) {
-  const keyboard = [];
-  for (let i = 0; i < buttons.length; i += columns) {
-    keyboard.push(buttons.slice(i, i + columns).map((b) => ({ text: b })));
-  }
-  return {
-    reply_markup: {
-      keyboard,
-      one_time_keyboard: opts.one_time !== false,
-      resize_keyboard: true,
-    },
-  };
-}
-
 function removeKeyboard() {
   return { reply_markup: { remove_keyboard: true } };
 }
@@ -140,7 +138,6 @@ module.exports = {
   guard,
   reply,
   inlineButtons,
-  simpleKeyboard,
   removeKeyboard,
   get bot() {
     return bot;

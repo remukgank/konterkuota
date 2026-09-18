@@ -3,7 +3,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const FILE = path.join(__dirname, "..", "data", "transaksi.json");
+const FILE = path.join(__dirname, "..", "data", "deposit.json");
 
 const locks = new Map();
 
@@ -26,7 +26,7 @@ function load() {
 }
 
 async function save(list) {
-  const release = await acquireLock("transaksi");
+  const release = await acquireLock("deposit");
   try {
     fs.mkdirSync(path.dirname(FILE), { recursive: true });
     fs.writeFileSync(FILE, JSON.stringify(list, null, 2));
@@ -36,7 +36,7 @@ async function save(list) {
 }
 
 async function add(entry) {
-  const release = await acquireLock("transaksi");
+  const release = await acquireLock("deposit");
   try {
     const list = load();
     list.push(entry);
@@ -48,36 +48,21 @@ async function add(entry) {
   }
 }
 
-function get(trx) {
-  return load().find((x) => String(x.trx) === String(trx));
+function get(depId) {
+  return load().find((x) => String(x.depId) === String(depId));
 }
 
 function listByChat(chat, limit) {
   return load()
     .filter((x) => String(x.chat) === String(chat))
-    .slice(-(limit || 10))
+    .slice(-(limit || 20))
     .reverse();
 }
 
 function listAll(limit) {
   return load()
-    .slice(-(limit || 10))
+    .slice(-(limit || 100))
     .reverse();
 }
 
-async function updateStatus(trx, patch) {
-  const release = await acquireLock("transaksi");
-  try {
-    const list = load();
-    const e = list.find((x) => String(x.trx) === String(trx));
-    if (!e) return null;
-    Object.assign(e, patch, { updatedAt: Date.now() });
-    fs.mkdirSync(path.dirname(FILE), { recursive: true });
-    fs.writeFileSync(FILE, JSON.stringify(list, null, 2));
-    return e;
-  } finally {
-    release();
-  }
-}
-
-module.exports = { load, add, get, listByChat, listAll, updateStatus };
+module.exports = { load, add, get, listByChat, listAll };

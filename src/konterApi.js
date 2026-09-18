@@ -57,10 +57,16 @@ async function request(method, urlPath, { body, form } = {}) {
     payload = new URLSearchParams(form).toString();
   }
 
-  const res = await fetch(url, { method, headers, body: payload, redirect: "manual" });
-  _setCookiesFromHeaders(res.headers);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 15000);
 
-  return res;
+  try {
+    const res = await fetch(url, { method, headers, body: payload, redirect: "manual", signal: controller.signal });
+    _setCookiesFromHeaders(res.headers);
+    return res;
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 
 async function getBuffer(urlPath) {
@@ -85,23 +91,4 @@ async function getHTML(urlPath) {
   return { status: r.status, headers: r.headers, text };
 }
 
-async function getJSON(urlPath) {
-  const r = await request("GET", urlPath);
-  let text = "";
-  try {
-    text = await r.text();
-  } catch (e) {
-    text = "";
-  }
-  let json = null;
-  if (text) {
-    try {
-      json = JSON.parse(text);
-    } catch (e) {
-      json = null;
-    }
-  }
-  return { status: r.status, json, text };
-}
-
-module.exports = { request, getHTML, getBuffer, getJSON, cookieJar: () => cookieJar };
+module.exports = { request, getHTML, getBuffer, cookieJar: () => cookieJar };

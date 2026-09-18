@@ -74,23 +74,6 @@ function findCategoryForOperator(cfg, opId) {
   return cfg.categories.find((c) => c.operators && c.operators[opId]) || null;
 }
 
-function operatorList(cfg) {
-  const seen = {};
-  const out = [];
-  for (const [id, name] of Object.entries(cfg.operators)) {
-    if (!seen[id]) {
-      seen[id] = true;
-      out.push({ id, name });
-    }
-  }
-  return out;
-}
-
-function convertPrice(harga) {
-  const n = parseInt(harga, 10);
-  return isNaN(n) ? 0 : n;
-}
-
 async function submitOrder({ kategori, operator, voucher, values, pembayaran, captcha, csrfToken }) {
   const endpoint = BASE_URL + "/" + kategori;
 
@@ -130,8 +113,6 @@ module.exports = {
   getOrderConfig,
   categoryByKey,
   findCategoryForOperator,
-  operatorList,
-  convertPrice,
   submitOrder,
   CATEGORY_ORDER,
 };
